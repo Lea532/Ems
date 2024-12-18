@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Observable, of} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Employee} from "../Employee";
-import {EmployeeApiService} from "../services/employee-api.service";
+import {Employee} from "../../Employee";
+import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
 @Component({
@@ -20,8 +20,8 @@ export class EmployeeListComponent {
 
   employees$: Observable<Employee[]>;
 
-  ngOnInit() {
-    this.employees$ = this.employeeApiService.getAllEmployees();
+  async ngOnInit() {
+    this.employees$ = await this.employeeApiService.getAllEmployees();
   }
 
   logout(){
