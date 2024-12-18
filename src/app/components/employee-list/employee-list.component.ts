@@ -1,14 +1,13 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Observable, of} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Employee} from "../../Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
-import {EmployeeApiService} from "../services/employee-api.service";
-import {MaterialModule} from "../material/material.module";
-import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+
 import {MatDialog} from "@angular/material/dialog";
+import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
+import {MaterialModule} from "../../material/material.module";
 
 @Component({
   selector: 'app-employee-list',
@@ -35,6 +34,15 @@ export class EmployeeListComponent {
   readonly dialog = inject(MatDialog);
 
   openDialog() {
-    this.dialog.open(DeleteDialogComponent);
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        console.log('Löschen wurde bestätigt.');
+      } else {
+        console.log('Löschen wurde abgebrochen.');
+      }
+    });
   }
+
 }
