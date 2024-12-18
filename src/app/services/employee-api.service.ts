@@ -12,7 +12,7 @@ export class EmployeeApiService {
   constructor(private http: HttpClient) { }
 
   getAllEmployees() {
-    return this.http.get<Employee[]>('/backend/employees', {
+    return this.http.get<Employee[]>('http://localhost:8089/employees', {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${this.bearer}`)
