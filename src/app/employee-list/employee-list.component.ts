@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Employee} from "../Employee";
 import {EmployeeApiService} from "../services/employee-api.service";
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-employee-list',
@@ -13,7 +14,7 @@ import {EmployeeApiService} from "../services/employee-api.service";
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
-  constructor(private employeeApiService: EmployeeApiService) {
+  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService) {
     this.employees$ = new Observable<Employee[]>()
   }
 
@@ -21,6 +22,10 @@ export class EmployeeListComponent {
 
   ngOnInit() {
     this.employees$ = this.employeeApiService.getAllEmployees();
+  }
+
+  logout(){
+    this.keycloak.logout();
   }
 
 }
