@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService} from "keycloak-angular";
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 
 export const initializeKeycloak = (keycloak: KeycloakService) => async () =>
   keycloak.init({
@@ -22,13 +24,12 @@ export const initializeKeycloak = (keycloak: KeycloakService) => async () =>
     },
   });
 
-
 function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
   return () => initializeKeycloak(keycloak)();
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
+  providers: [provideRouter(routes), provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync(),
     KeycloakAngularModule,
     {
       provide: APP_INITIALIZER,
