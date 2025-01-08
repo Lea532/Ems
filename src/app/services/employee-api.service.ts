@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {Employee} from "../models/Employee";
 import {KeycloakService} from "keycloak-angular";
+import {Qualification} from "../model/Qualification";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,14 @@ export class EmployeeApiService {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${await this.authorize()}`)
+    });
+  }
+
+  async getAllQualificationsOfEmployeeById(id: number) {
+    return this.http.get<Qualification[]>('http://localhost:8089/employees/${id}/qualifications', {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
     });
   }
 }

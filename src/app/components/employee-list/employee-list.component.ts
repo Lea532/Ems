@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Observable, of} from "rxjs";
-import {Employee} from "../../models/Employee";
+import {Employee} from "../../Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MaterialModule} from "../../material/material.module";
 import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
+import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 
 @Component({
   selector: 'app-employee-list',
@@ -55,6 +56,11 @@ export class EmployeeListComponent {
   openEditDialog(): void {
     const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
       data: { id: 1 },
+    });
+  }
+  showEmployeeDetails(id: number | undefined) {
+    const dialogRef = this.dialog.open(EmployeeDetailComponent, {
+      data: {id},
     });
   }
 }
