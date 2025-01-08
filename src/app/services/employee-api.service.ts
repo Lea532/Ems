@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {of} from "rxjs";
-import {Employee} from "../Employee";
+import {Observable, of} from "rxjs";
+import {Employee} from "../models/Employee";
 import {KeycloakService} from "keycloak-angular";
 
 @Injectable({
@@ -16,6 +16,14 @@ export class EmployeeApiService {
 
   async getAllEmployees() {
     return this.http.get<Employee[]>('http://localhost:8089/employees', {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    });
+  }
+
+  async getEmployeeById(id: number): Promise<Observable<Employee>> {
+    return this.http.get<Employee>('http://localhost:8089/employees/' + id, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${await this.authorize()}`)
