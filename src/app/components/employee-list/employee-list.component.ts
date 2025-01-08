@@ -8,6 +8,7 @@ import {KeycloakService} from "keycloak-angular";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MaterialModule} from "../../material/material.module";
+import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
 
 @Component({
   selector: 'app-employee-list',
@@ -45,4 +46,9 @@ export class EmployeeListComponent {
     });
   }
 
+  showEmployeeDetails(id: number | undefined) {
+    const dialogRef = this.dialog.open(EmployeeDetailComponent, {
+      data: {id},
+    });
+  }
 }

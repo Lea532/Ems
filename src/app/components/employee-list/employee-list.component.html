@@ -5,8 +5,10 @@ Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, s
   @for(e of employees$ | async; track e.id) {
     <li>
       {{e.lastName }}, {{e.firstName}}
+      <button mat-button (click)="showEmployeeDetails(e.id)">Details</button>
     </li>
   }
 </ul>
 
 <button mat-button (click)="openDialog()">Launch dialog</button>
+<button mat-button>Mitarbeiterdetails</button>
