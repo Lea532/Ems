@@ -8,15 +8,15 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {Qualification} from "../../../models/Qualification";
 import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+import {MaterialModule} from "../../../material/material.module";
+import {QualificationApiService} from "../../../services/qualification-api.service";
 
 @Component({
   selector: 'app-add-edit-employee-dialog',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule
+    MaterialModule,
   ],
   templateUrl: './add-edit-employee-dialog.component.html',
   styleUrl: './add-edit-employee-dialog.component.css'
@@ -32,18 +32,25 @@ export class AddEditEmployeeDialogComponent implements OnInit{
   public formGroup = new FormGroup({
     firstname: new FormControl<string>('', [Validators.required]),
     lastname: new FormControl<string>('', [Validators.required]),
-    street: new FormControl(''),
-    postcode: new FormControl(''),
-    city: new FormControl(''),
-    phone: new FormControl('')
+    street: new FormControl('', [Validators.required]),
+    postcode: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required])
   })
 
-  constructor(private employeeApiService: EmployeeApiService) {
+  constructor(private employeeApiService: EmployeeApiService, private qualificatoinApiServie: QualificationApiService) {
     this.employee = new Employee();
   }
 
   async ngOnInit() {
-    if(this.data.id != 0){
+    await this.fillFormGroup();
+    (await this.qualificatoinApiServie.getAllQualifications()).subscribe(qualifications => {
+      this.allQualificatons = qualifications;
+    })
+  }
+
+  private async fillFormGroup() {
+    if (this.data.id != 0) {
       (await this.employeeApiService.getEmployeeById(this.data.id)).subscribe(employee => {
         this.employee = employee;
         this.formGroup.controls.firstname.setValue(this.employee.firstName!);
@@ -54,5 +61,31 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.phone.setValue(this.employee.phone!);
       });
     }
+  }
+
+  async addEmployee() {
+    if(this.formGroup.valid){
+      let firstname = this.formGroup.controls.firstname.value!;
+      let lastname = this.formGroup.controls.lastname.value!;
+      let street = this.formGroup.controls.street.value!;
+      let postcode = this.formGroup.controls.postcode.value!;
+      let city = this.formGroup.controls.city.value!;
+      let phone = this.formGroup.controls.phone.value!;
+      let employee: Employee = new Employee(0, firstname, lastname, street, postcode, city, phone);
+
+      (await this.employeeApiService.addEmployee(employee)).subscribe(employee => {
+        this.employee = employee;
+      });
+      this.employeeQualifications.forEach(qualification => {
+        this.employeeApiService.addQualificationToEmployee(this.employee.id!, qualification);
+      })
+      this.dialogRef.close(this.employee);
+    } else {
+      alert("Es muss alles ausgefüllt sein.")
+    }
+  }
+
+  editEmployee() {
+
   }
 }

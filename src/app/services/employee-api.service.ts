@@ -32,10 +32,26 @@ export class EmployeeApiService {
   }
 
   async getAllQualificationsOfEmployeeById(id: number) {
-    return this.http.get<Qualification[]>('http://localhost:8089/employees/${id}/qualifications', {
+    return this.http.get<Qualification[]>('http://localhost:8089/employees/' + id + '/qualifications', {
       headers: new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)
     });
+  }
+
+  async addEmployee(employee: Employee) {
+    return this.http.post<Employee>('http://localhost:8089/employees', employee, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
+  }
+
+  async addQualificationToEmployee(employeeId: number, qualification: Qualification) {
+    return this.http.post<Employee>('http://localhost:8089/employees/' + employeeId + '/qualifications', qualification, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
   }
 }

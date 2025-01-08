@@ -52,4 +52,9 @@
       }
     </ul>
   </div>
+  @if (data.id == 0){
+    <button mat-raised-button (click)="addEmployee()">Mitarbeiter anlegen</button>
+  } @else {
+    <button mat-raised-button (click)="editEmployee()">Mitarbeiter bearbeien</button>
+  }
 </form>
