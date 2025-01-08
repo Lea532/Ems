@@ -27,10 +27,6 @@ export class EmployeeListComponent {
     this.employees$ = await this.employeeApiService.getAllEmployees();
   }
 
-  logout(){
-    this.keycloak.logout();
-  }
-
   readonly dialog = inject(MatDialog);
 
   openDialog() {
