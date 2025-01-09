@@ -38,7 +38,7 @@
 
   <mat-form-field>
     <mat-label>Qualifikation hinzufügen</mat-label>
-    <mat-select [(value)]="selectedQualificaton">
+    <mat-select formControlName="skillset" multiple>
       @for(qualification of allQualificatons; track qualification.id){
         <mat-option value="{{qualification.id}}">{{qualification.skill}}</mat-option>
       }

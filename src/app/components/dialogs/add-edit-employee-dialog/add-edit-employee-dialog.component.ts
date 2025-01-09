@@ -11,6 +11,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {MaterialModule} from "../../../material/material.module";
 import {QualificationApiService} from "../../../services/qualification-api.service";
+import {AddEmployeeDto} from "../../../model/AddEmployeeDto";
 
 @Component({
   selector: 'app-add-edit-employee-dialog',
@@ -35,7 +36,8 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     street: new FormControl('', [Validators.required]),
     postcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required])
+    phone: new FormControl('', [Validators.required]),
+    skillset: new FormControl<number[]>([])
   })
 
   constructor(private employeeApiService: EmployeeApiService, private qualificatoinApiServie: QualificationApiService) {
@@ -71,15 +73,16 @@ export class AddEditEmployeeDialogComponent implements OnInit{
       let postcode = this.formGroup.controls.postcode.value!;
       let city = this.formGroup.controls.city.value!;
       let phone = this.formGroup.controls.phone.value!;
-      let employee: Employee = new Employee(0, firstname, lastname, street, postcode, city, phone);
+      let skills = this.formGroup.controls.skillset.value!;
+      let skillset: number[] = [];
+      skills.forEach(skill => {
+        skillset.push(Number(skill));
+      })
+      let employee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
 
       (await this.employeeApiService.addEmployee(employee)).subscribe(employee => {
-        this.employee = employee;
+        this.dialogRef.close(employee);
       });
-      this.employeeQualifications.forEach(qualification => {
-        this.employeeApiService.addQualificationToEmployee(this.employee.id!, qualification);
-      })
-      this.dialogRef.close(this.employee);
     } else {
       alert("Es muss alles ausgefüllt sein.")
     }

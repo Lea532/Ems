@@ -4,6 +4,8 @@ import {Observable, of} from "rxjs";
 import {Employee} from "../models/Employee";
 import {KeycloakService} from "keycloak-angular";
 import {Qualification} from "../model/Qualification";
+import {AddEmployeeDto} from "../model/AddEmployeeDto";
+import {EmployeeResponseDto} from "../model/EmployeeResponseDto";
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +41,8 @@ export class EmployeeApiService {
     });
   }
 
-  async addEmployee(employee: Employee) {
-    return this.http.post<Employee>('http://localhost:8089/employees', employee, {
+  async addEmployee(addEmployee: AddEmployeeDto) {
+    return this.http.post<EmployeeResponseDto>('http://localhost:8089/employees', addEmployee, {
       headers: new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)

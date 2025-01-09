@@ -51,12 +51,20 @@ export class EmployeeListComponent {
     const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
       data: { id: 0 },
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
   }
 
   openEditDialog(id:number): void {
     const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
       data: { id: id },
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
   }
   showEmployeeDetails(id: number | undefined) {
     const dialogRef = this.dialog.open(EmployeeDetailComponent, {
