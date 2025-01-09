@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Observable, of} from "rxjs";
-import {Employee} from "../../Employee";
+import {Observable} from "rxjs";
+import {Employee} from "../../model/Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
