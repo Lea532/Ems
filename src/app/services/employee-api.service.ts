@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {of} from "rxjs";
 import {Employee} from "../model/Employee";
 import {KeycloakService} from "keycloak-angular";
 

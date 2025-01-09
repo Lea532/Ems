@@ -1,6 +1,4 @@
-import { Routes } from '@angular/router';
-import {EmployeeListComponent} from "./components/employee-list/employee-list.component";
-import {KeycloakAuthGuard} from "keycloak-angular";
+import {Routes} from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {AuthGuard} from "../security/auth.guard";
 import {OverviewComponent} from "./components/overview/overview.component";
