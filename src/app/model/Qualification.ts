@@ -1,4 +1,5 @@
-export interface Qualification {
-  id: number;
-  skill: string;
+export class Qualification {
+  constructor(public id: number,
+              public skill: string) {
+  }
 }

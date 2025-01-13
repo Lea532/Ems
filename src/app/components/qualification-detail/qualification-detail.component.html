@@ -1,0 +1,20 @@
+<div class="dialog">
+  <h2 mat-dialog-title>Details</h2>
+  <mat-dialog-content>
+    <h4>Mitarbeiter</h4>
+    <ul *ngIf="employees.length > 0; else noEmployees">
+      <li *ngFor="let employee of employees">
+        {{ employee.firstName }}
+        {{ employee.lastName }}
+      </li>
+    </ul>
+
+    <ng-template #noEmployees>
+      <p>Keine Mitarbeiter gefunden.</p>
+    </ng-template>
+
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Schließen</button>
+  </mat-dialog-actions>
+</div>
