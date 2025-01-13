@@ -1,14 +1,15 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Observable, of} from "rxjs";
-import {Employee} from "../../Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
 import {MaterialModule} from "../../material/material.module";
-import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
+import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
+import {EmployeeDetailComponent} from "../dialogs/employee-detail/employee-detail.component";
+import {Employee} from "../../models/Employee";
 import {Qualification} from "../../model/Qualification";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
@@ -36,18 +37,39 @@ export class EmployeeListComponent {
 
   readonly dialog = inject(MatDialog);
 
-  openDialog() {
+  openDeleteDialog(id:number) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        console.log('Löschen wurde bestätigt.');
+        this.employeeApiService.deleteEmployeeById(id)
+          .then(r => this.ngOnInit())
+          .catch(error => { console.log(error); });
       } else {
         console.log('Löschen wurde abgebrochen.');
       }
     });
   }
 
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
+      data: { id: 0 },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
+  }
+
+  openEditDialog(id:number): void {
+    const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
+      data: { id: id },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
+  }
   showEmployeeDetails(id: number | undefined) {
     const dialogRef = this.dialog.open(EmployeeDetailComponent, {
       data: {id},

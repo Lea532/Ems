@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MaterialModule} from "../../material/material.module";
-import {Qualification} from "../../model/Qualification";
+import {MaterialModule} from "../../../material/material.module";
+import {Qualification} from "../../../model/Qualification";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {EmployeeApiService} from "../../services/employee-api.service";
+import {EmployeeApiService} from "../../../services/employee-api.service";
 
 @Component({
   selector: 'app-employee-detail',
@@ -25,6 +25,7 @@ export class EmployeeDetailComponent implements OnInit{
         const observable = await this.employeeApiService.getAllQualificationsOfEmployeeById(this.data.id);
         observable.subscribe((qualifications) => {
           this.qualifications = qualifications;
+          console.log(qualifications)
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Qualifikationen:', error);

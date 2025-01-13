@@ -14,6 +14,14 @@ export class QualificationApiService {
     return await this.keyCloakService.getToken();
   }
 
+  async getAllQualifications() {
+    return this.http.get<Qualification[]>('http://localhost:8089/qualifications', {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
+  }
+
   async getAllEmployeesByQualificationId(id: number) {
     return this.http.get<Employee[]>(`http://localhost:8089/qualifications/${id}/employees`, {
       headers: new HttpHeaders()
@@ -21,12 +29,4 @@ export class QualificationApiService {
         .set('Authorization', `Bearer ${await this.authorize()}`)
     });
   }
-
-    async getAllQualifications() {
-      return this.http.get<Qualification[]>('http://localhost:8089/qualifications', {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'application/json')
-          .set('Authorization', `Bearer ${await this.authorize()}`)
-      });
-    }
 }
