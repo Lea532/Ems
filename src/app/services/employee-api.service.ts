@@ -4,6 +4,7 @@ import {of} from "rxjs";
 import {Employee} from "../Employee";
 import {KeycloakService} from "keycloak-angular";
 import {Qualification} from "../model/Qualification";
+import {GetEmployeeWithQualificationsDto} from "../model/GetEmployeeWithQualificationsDto";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class EmployeeApiService {
   }
 
   async getAllQualificationsOfEmployeeById(id: number) {
-    return this.http.get<Qualification[]>('http://localhost:8089/employees/${id}/qualifications', {
+    return this.http.get<GetEmployeeWithQualificationsDto>('http://localhost:8089/employees/' + id + '/qualifications', {
       headers: new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)
