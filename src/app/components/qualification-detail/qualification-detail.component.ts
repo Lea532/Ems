@@ -3,6 +3,8 @@ import {MaterialModule} from "../../material/material.module";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {Employee} from "../../model/Employee";
+import {GetQualificationWithEmployees} from "../../model/GetQualificationWithEmployees";
+import {EmployeeNameAndSkillDataDto} from "../../model/EmployeeNameAndSkillDataDto";
 
 @Component({
   selector: 'app-qualification-detail',
@@ -14,7 +16,7 @@ import {Employee} from "../../model/Employee";
   styleUrl: './qualification-detail.component.css'
 })
 export class QualificationDetailComponent {
-  employees: Employee[] = [];
+  employees: EmployeeNameAndSkillDataDto[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
@@ -25,8 +27,8 @@ export class QualificationDetailComponent {
     if (this.data.id) {
       try {
         const observable = await this.qualificationApiService.getAllEmployeesByQualificationId(this.data.id);
-        observable.subscribe((employees) => {
-          this.employees = employees;
+        observable.subscribe((qualificationWithEmployees: GetQualificationWithEmployees) => {
+          this.employees = qualificationWithEmployees.employees;
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Mitarbeiter:', error);
