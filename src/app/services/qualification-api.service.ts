@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {KeycloakService} from "keycloak-angular";
-import {Employee} from "../Employee";
 import {Qualification} from "../model/Qualification";
+import {Employee} from "../models/Employee";
 
 @Injectable({
   providedIn: 'root'
