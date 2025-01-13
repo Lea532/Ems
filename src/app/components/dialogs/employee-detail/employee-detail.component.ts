@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MaterialModule} from "../../../material/material.module";
-import {Qualification} from "../../../model/Qualification";
+import {Qualification} from "../../../models/Qualification";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {EmployeeApiService} from "../../../services/employee-api.service";
 

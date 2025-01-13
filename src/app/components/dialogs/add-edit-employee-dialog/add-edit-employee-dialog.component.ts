@@ -11,7 +11,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {MaterialModule} from "../../../material/material.module";
 import {QualificationApiService} from "../../../services/qualification-api.service";
-import {AddEmployeeDto} from "../../../model/AddEmployeeDto";
+import {AddEmployeeDto} from "../../../models/AddEmployeeDto";
 
 @Component({
   selector: 'app-add-edit-employee-dialog',
@@ -61,23 +61,19 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.postcode.setValue(this.employee.postcode!);
         this.formGroup.controls.city.setValue(this.employee.city!);
         this.formGroup.controls.phone.setValue(this.employee.phone!);
+        let skills: number[] = [];
+        this.employeeQualifications = this.employee.skillSet!;
+        this.employeeQualifications.forEach(qualifications => {
+          skills.push(qualifications.id)
+        })
+        this.formGroup.controls.skillset.setValue(skills!);
       });
     }
   }
 
   async addEmployee() {
     if(this.formGroup.valid){
-      let firstname = this.formGroup.controls.firstname.value!;
-      let lastname = this.formGroup.controls.lastname.value!;
-      let street = this.formGroup.controls.street.value!;
-      let postcode = this.formGroup.controls.postcode.value!;
-      let city = this.formGroup.controls.city.value!;
-      let phone = this.formGroup.controls.phone.value!;
-      let skills = this.formGroup.controls.skillset.value!;
-      let skillset: number[] = [];
-      skills.forEach(skill => {
-        skillset.push(Number(skill));
-      })
+      let {firstname, lastname, street, postcode, city, phone, skillset} = this.getFormData();
       let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
 
       (await this.employeeApiService.addEmployee(addEmployee)).subscribe(employee => {
@@ -88,7 +84,30 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     }
   }
 
-  editEmployee() {
+  private getFormData() {
+    let firstname = this.formGroup.controls.firstname.value!;
+    let lastname = this.formGroup.controls.lastname.value!;
+    let street = this.formGroup.controls.street.value!;
+    let postcode = this.formGroup.controls.postcode.value!;
+    let city = this.formGroup.controls.city.value!;
+    let phone = this.formGroup.controls.phone.value!;
+    let skills = this.formGroup.controls.skillset.value!;
+    let skillset: number[] = [];
+    skills.forEach(skill => {
+      skillset.push(Number(skill));
+    })
+    return {firstname, lastname, street, postcode, city, phone, skillset};
+  }
 
+  async editEmployee() {
+    if (this.formGroup.valid) {
+      let {firstname, lastname, street, postcode, city, phone, skillset} = this.getFormData();
+      let addEditEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
+
+      await this.employeeApiService.editEmployee(this.data.id, addEditEmployee);
+      this.dialogRef.close();
+    } else {
+      alert("Es muss alles ausgefüllt sein.")
+    }
   }
 }
