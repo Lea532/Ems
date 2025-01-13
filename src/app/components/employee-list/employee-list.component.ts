@@ -5,10 +5,10 @@ import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
 import {MaterialModule} from "../../material/material.module";
 import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
-import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
+import {EmployeeDetailComponent} from "../dialogs/employee-detail/employee-detail.component";
 import {Employee} from "../../models/Employee";
 
 @Component({
@@ -27,6 +27,7 @@ export class EmployeeListComponent {
 
   async ngOnInit() {
     this.employees$ = await this.employeeApiService.getAllEmployees();
+    console.log("Test")
   }
 
   logout(){
@@ -35,12 +36,14 @@ export class EmployeeListComponent {
 
   readonly dialog = inject(MatDialog);
 
-  openDialog() {
+  openDeleteDialog(id:number) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        console.log('Löschen wurde bestätigt.');
+        this.employeeApiService.deleteEmployeeById(id)
+          .then(r => this.ngOnInit())
+          .catch(error => { console.log(error); });
       } else {
         console.log('Löschen wurde abgebrochen.');
       }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {catchError, Observable, of} from "rxjs";
 import {Employee} from "../models/Employee";
 import {KeycloakService} from "keycloak-angular";
 import {Qualification} from "../model/Qualification";
@@ -55,5 +55,13 @@ export class EmployeeApiService {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)
     })
+  }
+
+  async deleteEmployeeById(employeeId: number) {
+    return this.http.delete('http://localhost:8089/employees/' + employeeId, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
+    }).toPromise();
   }
 }

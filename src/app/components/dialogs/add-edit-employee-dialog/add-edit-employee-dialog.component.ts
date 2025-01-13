@@ -78,9 +78,9 @@ export class AddEditEmployeeDialogComponent implements OnInit{
       skills.forEach(skill => {
         skillset.push(Number(skill));
       })
-      let employee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
+      let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
 
-      (await this.employeeApiService.addEmployee(employee)).subscribe(employee => {
+      (await this.employeeApiService.addEmployee(addEmployee)).subscribe(employee => {
         this.dialogRef.close(employee);
       });
     } else {
