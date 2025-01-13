@@ -40,7 +40,7 @@
     <mat-label>Qualifikation hinzufügen</mat-label>
     <mat-select formControlName="skillset" multiple>
       @for(qualification of allQualificatons; track qualification.id){
-        <mat-option value="{{qualification.id}}">{{qualification.skill}}</mat-option>
+        <mat-option value="{{qualification}}">{{qualification.skill}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
@@ -48,13 +48,13 @@
     <h2>Qualifikationen</h2>
     <ul>
       @for (qualification of employeeQualifications; track qualification.id ){
-        <li>{{qualification.skill}}</li>
+        <li>{{qualification.skill}} <button mat-raised-button (click)="deleteQualification(qualification)">Delete</button> </li>
       }
     </ul>
   </div>
   @if (data.id == 0){
-    <button mat-raised-button (click)="addEmployee()">Mitarbeiter anlegen</button>
+    <button mat-raised-button (click)="addOrEditEmployee(true)">Mitarbeiter anlegen</button>
   } @else {
-    <button mat-raised-button (click)="editEmployee()">Mitarbeiter bearbeien</button>
+    <button mat-raised-button (click)="addOrEditEmployee(false)">Mitarbeiter bearbeien</button>
   }
 </form>

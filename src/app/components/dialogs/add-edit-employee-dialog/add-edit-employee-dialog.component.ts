@@ -24,7 +24,6 @@ import {AddEmployeeDto} from "../../../models/AddEmployeeDto";
 })
 export class AddEditEmployeeDialogComponent implements OnInit{
   public employee: Employee;
-  public selectedQualificaton: Qualification|null = null;
   public allQualificatons: Qualification[] = [];
   public employeeQualifications: Qualification[] = [];
   readonly dialogRef = inject(MatDialogRef<AddEditEmployeeDialogComponent>);
@@ -37,16 +36,16 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     postcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
-    skillset: new FormControl<number[]>([])
+    skillset: new FormControl<Qualification[]>([])
   })
 
-  constructor(private employeeApiService: EmployeeApiService, private qualificatoinApiServie: QualificationApiService) {
+  constructor(private employeeApiService: EmployeeApiService, private qualificationApiService: QualificationApiService) {
     this.employee = new Employee();
   }
 
   async ngOnInit() {
     await this.fillFormGroup();
-    (await this.qualificatoinApiServie.getAllQualifications()).subscribe(qualifications => {
+    (await this.qualificationApiService.getAllQualifications()).subscribe(qualifications => {
       this.allQualificatons = qualifications;
     })
   }
@@ -61,26 +60,9 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.postcode.setValue(this.employee.postcode!);
         this.formGroup.controls.city.setValue(this.employee.city!);
         this.formGroup.controls.phone.setValue(this.employee.phone!);
-        let skills: number[] = [];
+        this.formGroup.controls.skillset.setValue(this.employee.skillSet!);
         this.employeeQualifications = this.employee.skillSet!;
-        this.employeeQualifications.forEach(qualifications => {
-          skills.push(qualifications.id)
-        })
-        this.formGroup.controls.skillset.setValue(skills!);
       });
-    }
-  }
-
-  async addEmployee() {
-    if(this.formGroup.valid){
-      let {firstname, lastname, street, postcode, city, phone, skillset} = this.getFormData();
-      let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
-
-      (await this.employeeApiService.addEmployee(addEmployee)).subscribe(employee => {
-        this.dialogRef.close(employee);
-      });
-    } else {
-      alert("Es muss alles ausgefüllt sein.")
     }
   }
 
@@ -92,20 +74,31 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     let city = this.formGroup.controls.city.value!;
     let phone = this.formGroup.controls.phone.value!;
     let skills = this.formGroup.controls.skillset.value!;
-    let skillset: number[] = [];
+    let skillSet: number[] = [];
     skills.forEach(skill => {
-      skillset.push(Number(skill));
+      skillSet.push(Number(skill));
     })
-    return {firstname, lastname, street, postcode, city, phone, skillset};
+    return {firstname, lastname, street, postcode, city, phone, skillSet};
   }
 
-  async editEmployee() {
-    if (this.formGroup.valid) {
-      let {firstname, lastname, street, postcode, city, phone, skillset} = this.getFormData();
-      let addEditEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillset);
+  deleteQualification(qualification:Qualification) {
+    this.employeeQualifications = this.employeeQualifications.filter(filterQualification => filterQualification.id != qualification.id);
+    this.employeeApiService.deleteQualificationById(this.data.id, qualification);
+    this.formGroup.controls.skillset.setValue(this.employeeQualifications);
+  }
 
-      await this.employeeApiService.editEmployee(this.data.id, addEditEmployee);
-      this.dialogRef.close();
+  async addOrEditEmployee(isAdd: boolean) {
+    if (this.formGroup.valid) {
+      let {firstname, lastname, street, postcode, city, phone, skillSet} = this.getFormData();
+      let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillSet);
+      if(isAdd){
+        (await this.employeeApiService.addEmployee(addEmployee)).subscribe(employee => {
+          this.dialogRef.close(employee);
+        });
+      } else {
+        await this.employeeApiService.editEmployee(this.data.id, addEmployee);
+        this.dialogRef.close();
+      }
     } else {
       alert("Es muss alles ausgefüllt sein.")
     }
