@@ -24,7 +24,7 @@ import {AddEmployeeDto} from "../../../models/AddEmployeeDto";
 })
 export class AddEditEmployeeDialogComponent implements OnInit{
   public employee: Employee;
-  public allQualificatons: Qualification[] = [];
+  public allQualifications: Qualification[] = [];
   public employeeQualifications: Qualification[] = [];
   readonly dialogRef = inject(MatDialogRef<AddEditEmployeeDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
@@ -36,7 +36,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     postcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
-    skillset: new FormControl<Qualification[]>([])
+    skillSet: new FormControl<number[]>([])
   })
 
   constructor(private employeeApiService: EmployeeApiService, private qualificationApiService: QualificationApiService) {
@@ -46,7 +46,8 @@ export class AddEditEmployeeDialogComponent implements OnInit{
   async ngOnInit() {
     await this.fillFormGroup();
     (await this.qualificationApiService.getAllQualifications()).subscribe(qualifications => {
-      this.allQualificatons = qualifications;
+      this.allQualifications = qualifications;
+      console.log(1, this.allQualifications)
     })
   }
 
@@ -60,7 +61,11 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.postcode.setValue(this.employee.postcode!);
         this.formGroup.controls.city.setValue(this.employee.city!);
         this.formGroup.controls.phone.setValue(this.employee.phone!);
-        this.formGroup.controls.skillset.setValue(this.employee.skillSet!);
+        let skillIds: number[] = [];
+        this.employee.skillSet!.forEach(skill => {
+          skillIds.push(skill.id);
+        })
+        this.formGroup.controls.skillSet.setValue(skillIds);
         this.employeeQualifications = this.employee.skillSet!;
       });
     }
@@ -73,24 +78,25 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     let postcode = this.formGroup.controls.postcode.value!;
     let city = this.formGroup.controls.city.value!;
     let phone = this.formGroup.controls.phone.value!;
-    let skills = this.formGroup.controls.skillset.value!;
-    let skillSet: number[] = [];
-    skills.forEach(skill => {
-      skillSet.push(Number(skill));
-    })
-    return {firstname, lastname, street, postcode, city, phone, skillSet};
+    let skills = this.formGroup.controls.skillSet.value!;
+    return {firstname, lastname, street, postcode, city, phone, skills};
   }
 
   deleteQualification(qualification:Qualification) {
     this.employeeQualifications = this.employeeQualifications.filter(filterQualification => filterQualification.id != qualification.id);
     this.employeeApiService.deleteQualificationById(this.data.id, qualification);
-    this.formGroup.controls.skillset.setValue(this.employeeQualifications);
+    let skillIds: number[] = [];
+    this.employeeQualifications.forEach(qualification => {
+      skillIds.push(qualification.id);
+    })
+    this.formGroup.controls.skillSet.setValue(skillIds);
   }
 
   async addOrEditEmployee(isAdd: boolean) {
     if (this.formGroup.valid) {
-      let {firstname, lastname, street, postcode, city, phone, skillSet} = this.getFormData();
-      let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skillSet);
+      let {firstname, lastname, street, postcode, city, phone, skills} = this.getFormData();
+      let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skills);
+      console.log("add",addEmployee);
       if(isAdd){
         (await this.employeeApiService.addEmployee(addEmployee)).subscribe(employee => {
           this.dialogRef.close(employee);
