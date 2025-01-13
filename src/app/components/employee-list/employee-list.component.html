@@ -8,5 +8,14 @@ Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, s
     </li>
   }
 </ul>
+<p>Qualifikationen</p>
+<ul>
+  @for(q of qualifications$ | async; track q.id) {
+    <li>
+      {{ q.skill }}
+      <button mat-button (click)="showQualificationDetails(q.id)">Details</button>
+    </li>
+  }
+</ul>
 
 <button mat-button (click)="openDialog()">Launch dialog</button>

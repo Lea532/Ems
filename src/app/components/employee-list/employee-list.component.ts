@@ -9,6 +9,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MaterialModule} from "../../material/material.module";
 import {EmployeeDetailComponent} from "../employee-detail/employee-detail.component";
+import {Qualification} from "../../model/Qualification";
+import {QualificationApiService} from "../../services/qualification-api.service";
+import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
 
 @Component({
   selector: 'app-employee-list',
@@ -18,14 +21,17 @@ import {EmployeeDetailComponent} from "../employee-detail/employee-detail.compon
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
-  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService) {
+  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService, private qualificationApiService: QualificationApiService) {
     this.employees$ = new Observable<Employee[]>()
+    this.qualifications$ = new Observable<Qualification[]>()
   }
 
   employees$: Observable<Employee[]>;
+  qualifications$: Observable<Qualification[]>;
 
   async ngOnInit() {
     this.employees$ = await this.employeeApiService.getAllEmployees();
+    this.qualifications$ = await this.qualificationApiService.getAllQualifications()
   }
 
   readonly dialog = inject(MatDialog);
@@ -44,6 +50,12 @@ export class EmployeeListComponent {
 
   showEmployeeDetails(id: number | undefined) {
     const dialogRef = this.dialog.open(EmployeeDetailComponent, {
+      data: {id},
+    });
+  }
+
+  showQualificationDetails(id: number) {
+    const dialogRef = this.dialog.open(QualificationDetailComponent, {
       data: {id},
     });
   }
