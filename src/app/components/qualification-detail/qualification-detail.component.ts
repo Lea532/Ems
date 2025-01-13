@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MaterialModule} from "../../material/material.module";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {QualificationApiService} from "../../services/qualification-api.service";
-import {Employee} from "../../models/Employee";
+import {Employee} from "../../model/Employee";
 
 @Component({
   selector: 'app-qualification-detail',

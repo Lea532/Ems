@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
+import {Employee} from "../../model/Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
@@ -9,7 +10,6 @@ import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.comp
 import {MaterialModule} from "../../material/material.module";
 import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
 import {EmployeeDetailComponent} from "../dialogs/employee-detail/employee-detail.component";
-import {Employee} from "../../models/Employee";
 import {Qualification} from "../../model/Qualification";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";

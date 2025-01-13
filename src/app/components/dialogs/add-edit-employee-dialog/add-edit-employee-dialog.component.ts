@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {Employee} from "../../../models/Employee";
+import {Employee} from "../../../model/Employee";
 import {EmployeeApiService} from "../../../services/employee-api.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Observable} from "rxjs";
