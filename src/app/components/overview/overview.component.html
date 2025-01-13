@@ -1,0 +1,53 @@
+<h1 class="text-center p-4">Übersicht</h1>
+<p>Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
+  <button (click)="logout()">logout</button></p>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table border">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Qualifikation</th>
+          <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (qualification of qualifications$| async; track qualification.id){
+            <tr>
+              <td>{{qualification.id}}</td>
+              <td>{{qualification.skill}}</td>
+              <td>
+                <button type="button">Edit</button>
+                <button type="button">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <table class="table border">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Mitarbeiter</th>
+          <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (employee of employees$| async; track employee.id){
+            <tr>
+              <td>{{employee.id}}</td>
+              <td>{{employee.firstName}} {{employee.lastName}}</td>
+              <td>
+                <button type="button">Edit</button>
+                <button type="button">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
