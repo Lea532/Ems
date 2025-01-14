@@ -9,7 +9,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Qualifikation</th>
-          <th scope="col">&nbsp;</th>
+          <th scope="col"><button mat-raised-button (click)="addOrEditQualification(null)">Add</button></th>
         </tr>
         </thead>
         <tbody>
@@ -18,7 +18,7 @@
               <td>{{qualification.id}}</td>
               <td>{{qualification.skill}}</td>
               <td>
-                <button type="button">Edit</button>
+                <button mat-raised-button (click)="addOrEditQualification(qualification)">Edit</button>
                 <button type="button">Delete</button>
               </td>
             </tr>

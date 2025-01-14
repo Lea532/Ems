@@ -2,7 +2,7 @@
   @if (data.id == 0){
     <h1>Mitarbeiter anlegen</h1>
   } @else {
-    <h1>Mitarbeiter bearbeien</h1>
+    <h1>Mitarbeiter bearbeiten</h1>
   }
 </div>
 <form [formGroup]="formGroup">
@@ -55,6 +55,6 @@
   @if (data.id == 0){
     <button mat-raised-button (click)="addOrEditEmployee(true)">Mitarbeiter anlegen</button>
   } @else {
-    <button mat-raised-button (click)="addOrEditEmployee(false)">Mitarbeiter bearbeien</button>
+    <button mat-raised-button (click)="addOrEditEmployee(false)">Mitarbeiter bearbeiten</button>
   }
 </form>
