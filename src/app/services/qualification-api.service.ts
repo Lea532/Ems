@@ -5,6 +5,7 @@ import {KeycloakService} from "keycloak-angular";
 import {Observable} from "rxjs";
 import {GetQualificationWithEmployees} from "../models/GetQualificationWithEmployees";
 import {Qualification} from "../models/Qualification";
+import {AddQualificationDto} from "../models/AddQualificationDto";
 
 
 @Injectable({
@@ -30,5 +31,21 @@ export class QualificationApiService {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${await this.authorize()}`)})
+  }
+
+  async addQualification(qualificationToSave: AddQualificationDto) {
+    return this.http.post<Qualification>('http://localhost:8089/qualifications', qualificationToSave, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
+  }
+
+  async editQualification(id:number, qualificationToSave: AddQualificationDto) {
+    return this.http.put<Qualification>('http://localhost:8089/qualifications/' + id, qualificationToSave, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
   }
 }
