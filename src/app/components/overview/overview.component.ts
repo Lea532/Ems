@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {QualificationApiService} from "../../services/qualification-api.service";
@@ -7,12 +7,18 @@ import {AsyncPipe} from "@angular/common";
 import {KeycloakService} from "keycloak-angular";
 import {Employee} from "../../models/employee";
 import {Qualification} from "../../models/Qualification";
+import {MatButtonModule} from "@angular/material/button";
+import {
+  AddEditQualificationDialogComponent
+} from "../dialogs/add-edit-qualification-dialog/add-edit-qualification-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-overview',
   standalone: true,
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    MatButtonModule
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
@@ -21,11 +27,12 @@ export class OverviewComponent implements OnInit {
   protected employees$!: Observable<Employee[]>;
   protected qualifications$!: Observable<Qualification[]>;
 
+  readonly dialog = inject(MatDialog);
+
   constructor(
     private employeeApiService: EmployeeApiService,
     private qualificationApiService: QualificationApiService,
     private keycloak: KeycloakService,
-
   ) {
   }
 
@@ -45,4 +52,15 @@ export class OverviewComponent implements OnInit {
   logout(){
     this.keycloak.logout();
   }
+
+  addOrEditQualification(qualification: Qualification|null) {
+    const dialogRef = this.dialog.open(AddEditQualificationDialogComponent, {
+      data: { qualification: qualification }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
+  }
+
 }
