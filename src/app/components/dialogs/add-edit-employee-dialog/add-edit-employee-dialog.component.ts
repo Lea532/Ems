@@ -2,13 +2,8 @@ import {Component, inject, OnInit} from '@angular/core';
 import {Employee} from "../../../models/Employee";
 import {EmployeeApiService} from "../../../services/employee-api.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Observable} from "rxjs";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
 import {Qualification} from "../../../models/Qualification";
-import {MatSelectModule} from "@angular/material/select";
-import {MatButtonModule} from "@angular/material/button";
 import {MaterialModule} from "../../../material/material.module";
 import {QualificationApiService} from "../../../services/qualification-api.service";
 import {AddEmployeeDto} from "../../../models/AddEmployeeDto";
@@ -43,6 +38,14 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     this.employee = new Employee();
   }
 
+  private getQualificationListAsIdList(qualifications: Qualification[]): number[] {
+    let idList: number[] = [];
+    qualifications.forEach(qualification => {
+      idList.push(qualification.id);
+    })
+    return idList;
+  }
+
   async ngOnInit() {
     await this.fillFormGroup();
     (await this.qualificationApiService.getAllQualifications()).subscribe(qualifications => {
@@ -61,11 +64,8 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.postcode.setValue(this.employee.postcode!);
         this.formGroup.controls.city.setValue(this.employee.city!);
         this.formGroup.controls.phone.setValue(this.employee.phone!);
-        let skillIds: number[] = [];
-        this.employee.skillSet!.forEach(skill => {
-          skillIds.push(skill.id);
-        })
-        this.formGroup.controls.skillSet.setValue(skillIds);
+        this.formGroup.controls.skillSet.setValue(this.getQualificationListAsIdList(this.employee.skillSet!));
+
         this.employeeQualifications = this.employee.skillSet!;
       });
     }
@@ -79,6 +79,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
     let city = this.formGroup.controls.city.value!;
     let phone = this.formGroup.controls.phone.value!;
     let skills = this.formGroup.controls.skillSet.value!;
+
     return {firstname, lastname, street, postcode, city, phone, skills};
   }
 
@@ -95,6 +96,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
   async addOrEditEmployee(isAdd: boolean) {
     if (this.formGroup.valid) {
       let {firstname, lastname, street, postcode, city, phone, skills} = this.getFormData();
+      skills.push(...this.getQualificationListAsIdList(this.employeeQualifications));
       let addEmployee: AddEmployeeDto = new AddEmployeeDto(firstname, lastname, street, postcode, city, phone, skills);
       console.log("add",addEmployee);
       if(isAdd){
