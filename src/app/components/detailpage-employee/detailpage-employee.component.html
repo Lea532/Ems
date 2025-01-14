@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h1>Mitarbeiterdetails</h1>
+  <div *ngIf="employee$ | async as employee" class="row">
+    <div class="col-md-6">
+      <h2>{{ employee.firstName }} {{ employee.lastName }}</h2>
+      <h3>
+        {{ employee.street }} <br>
+        {{ employee.postcode }} {{ employee.city }} <br>
+        {{ employee.phone }}
+      </h3>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Qualifikationen</h2>
+      <ul class="list-group">
+        <li *ngFor="let skill of employee.skillSet" class="list-group-item">
+          {{ skill.skill }}
+          <button mat-button (click)="deleteSkillOfEmployee(skill)">Löschen</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
