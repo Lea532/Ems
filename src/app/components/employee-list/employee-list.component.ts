@@ -13,6 +13,7 @@ import {QualificationApiService} from "../../services/qualification-api.service"
 import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
 import {Employee} from "../../models/employee";
 import {Qualification} from "../../models/Qualification";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-employee-list',
@@ -22,7 +23,7 @@ import {Qualification} from "../../models/Qualification";
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
-  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService, private qualificationApiService: QualificationApiService) {
+  constructor(private router: Router, private employeeApiService: EmployeeApiService, private keycloak: KeycloakService, private qualificationApiService: QualificationApiService) {
     this.employees$ = new Observable<Employee[]>()
     this.qualifications$ = new Observable<Qualification[]>()
   }
@@ -70,15 +71,12 @@ export class EmployeeListComponent {
       this.ngOnInit();
     })
   }
-  showEmployeeDetails(id: number | undefined) {
-    const dialogRef = this.dialog.open(EmployeeDetailComponent, {
-      data: {id},
-    });
-  }
 
   showQualificationDetails(id: number) {
-    const dialogRef = this.dialog.open(QualificationDetailComponent, {
-      data: {id},
-    });
+    this.router.navigate(['/qualification', id]);
+  }
+
+  navToEmployeeDetailpage(id: number) {
+    this.router.navigate(['/employees', id]);
   }
 }

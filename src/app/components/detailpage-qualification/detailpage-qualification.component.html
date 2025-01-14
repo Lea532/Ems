@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <h1>Details zur Qualifikation</h1>
+  <div *ngIf="qualification$ | async as qualification">
+    <h2>{{ qualification.qualification.skill }}</h2>
+
+    <h3>Mitarbeiter mit dieser Qualifikation</h3>
+    <ul class="list-group">
+      <li *ngFor="let employee of qualification.employees" class="list-group-item">
+        {{ employee.firstName }} {{ employee.lastName }}
+      </li>
+    </ul>
+  </div>
+</div>

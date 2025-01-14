@@ -78,11 +78,11 @@ export class EmployeeApiService {
   }
 
   async deleteQualificationById(id: number, qualification: Qualification) {
-    return this.http.delete('http://localhost:8089/employees/' + id + '/qualifications/', {
+    return this.http.delete('http://localhost:8089/employees/' + id + '/qualifications', {
       body: {skill: qualification.skill},
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${await this.authorize()}`)
-    })
+    }).toPromise()
   }
 }
