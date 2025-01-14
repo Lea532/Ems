@@ -48,12 +48,4 @@ export class QualificationApiService {
         .set('Authorization', `Bearer ${await this.authorize()}`)
     })
   }
-
-  async getQualificationById(id: number) {
-    return this.http.get<Qualification>('http://localhost:8089/qualifications/' + id, {
-      headers: new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${await this.authorize()}`)
-    })
-  }
 }
