@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
+import {Employee} from "../../model/Employee";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {KeycloakService} from "keycloak-angular";
 
@@ -9,7 +10,9 @@ import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.comp
 import {MaterialModule} from "../../material/material.module";
 import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
 import {EmployeeDetailComponent} from "../dialogs/employee-detail/employee-detail.component";
-import {Employee} from "../../models/Employee";
+import {Qualification} from "../../model/Qualification";
+import {QualificationApiService} from "../../services/qualification-api.service";
+import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
 
 @Component({
   selector: 'app-employee-list',
@@ -19,19 +22,17 @@ import {Employee} from "../../models/Employee";
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
-  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService) {
+  constructor(private employeeApiService: EmployeeApiService, private keycloak: KeycloakService, private qualificationApiService: QualificationApiService) {
     this.employees$ = new Observable<Employee[]>()
+    this.qualifications$ = new Observable<Qualification[]>()
   }
 
   employees$: Observable<Employee[]>;
+  qualifications$: Observable<Qualification[]>;
 
   async ngOnInit() {
     this.employees$ = await this.employeeApiService.getAllEmployees();
-    console.log("Test")
-  }
-
-  logout(){
-    this.keycloak.logout();
+    this.qualifications$ = await this.qualificationApiService.getAllQualifications()
   }
 
   readonly dialog = inject(MatDialog);
@@ -71,6 +72,12 @@ export class EmployeeListComponent {
   }
   showEmployeeDetails(id: number | undefined) {
     const dialogRef = this.dialog.open(EmployeeDetailComponent, {
+      data: {id},
+    });
+  }
+
+  showQualificationDetails(id: number) {
+    const dialogRef = this.dialog.open(QualificationDetailComponent, {
       data: {id},
     });
   }

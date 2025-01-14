@@ -1,4 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {MaterialModule} from "../../../material/material.module";
 import {Qualification} from "../../../models/Qualification";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
@@ -23,11 +24,6 @@ export class EmployeeDetailComponent implements OnInit{
   async ngOnInit() {
     if (this.data.id) {
       try {
-        // const observable = await this.employeeApiService.getAllQualificationsOfEmployeeById(this.data.id);
-        // observable.subscribe((qualifications) => {
-        //   this.qualifications = qualifications;
-        //   console.log(qualifications)
-        // });
         let employee = await this.employeeApiService.getEmployeeById(this.data.id);
         employee.subscribe(s => {
           this.qualifications = s.skillSet!;

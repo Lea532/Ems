@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of} from "rxjs";
-import {Employee} from "../models/Employee";
+import {Employee} from "../model/Employee";
 import {KeycloakService} from "keycloak-angular";
-import {Qualification} from "../models/Qualification";
-import {AddEmployeeDto} from "../models/AddEmployeeDto";
-import {EmployeeResponseDto} from "../models/EmployeeResponseDto";
+import {Qualification} from "../model/Qualification";
+import {GetEmployeeWithQualificationsDto} from "../model/GetEmployeeWithQualificationsDto";
+import {AddEmployeeDto} from "../model/AddEmployeeDto";
+import {EmployeeResponseDto} from "../model/EmployeeResponseDto";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class EmployeeApiService {
   }
 
   async getAllQualificationsOfEmployeeById(id: number) {
-    return this.http.get<Qualification[]>('http://localhost:8089/employees/' + id + '/qualifications', {
+    return this.http.get<GetEmployeeWithQualificationsDto>('http://localhost:8089/employees/' + id + '/qualifications', {
       headers: new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)
