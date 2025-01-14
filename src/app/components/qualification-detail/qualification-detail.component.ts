@@ -2,9 +2,8 @@ import {Component, Inject} from '@angular/core';
 import {MaterialModule} from "../../material/material.module";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {QualificationApiService} from "../../services/qualification-api.service";
-import {Employee} from "../../model/Employee";
-import {GetQualificationWithEmployees} from "../../model/GetQualificationWithEmployees";
-import {EmployeeNameAndSkillDataDto} from "../../model/EmployeeNameAndSkillDataDto";
+import {EmployeeNameAndSkillDataDto} from "../../models/EmployeeNameAndSkillDataDto";
+import {GetQualificationWithEmployees} from "../../models/GetQualificationWithEmployees";
 
 @Component({
   selector: 'app-qualification-detail',

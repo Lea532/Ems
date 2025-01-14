@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Employee} from "../../model/Employee";
-import {Qualification} from "../../model/Qualification";
+
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {Observable} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {KeycloakService} from "keycloak-angular";
+import {Employee} from "../../models/employee";
+import {Qualification} from "../../models/Qualification";
 
 @Component({
   selector: 'app-overview',

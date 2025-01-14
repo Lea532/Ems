@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {Employee} from "../../../model/Employee";
+
 import {EmployeeApiService} from "../../../services/employee-api.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -7,6 +7,7 @@ import {Qualification} from "../../../models/Qualification";
 import {MaterialModule} from "../../../material/material.module";
 import {QualificationApiService} from "../../../services/qualification-api.service";
 import {AddEmployeeDto} from "../../../models/AddEmployeeDto";
+import {Employee} from "../../../models/employee";
 
 @Component({
   selector: 'app-add-edit-employee-dialog',

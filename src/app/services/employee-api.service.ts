@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of} from "rxjs";
-import {Employee} from "../model/Employee";
+
 import {KeycloakService} from "keycloak-angular";
-import {Qualification} from "../model/Qualification";
-import {GetEmployeeWithQualificationsDto} from "../model/GetEmployeeWithQualificationsDto";
-import {AddEmployeeDto} from "../model/AddEmployeeDto";
-import {EmployeeResponseDto} from "../model/EmployeeResponseDto";
+import {Employee} from "../models/employee";
+import {GetEmployeeWithQualificationsDto} from "../models/GetEmployeeWithQualificationsDto";
+import {AddEmployeeDto} from "../models/AddEmployeeDto";
+import {EmployeeResponseDto} from "../models/EmployeeResponseDto";
+import {Qualification} from "../models/Qualification";
+
+
 
 @Injectable({
   providedIn: 'root'

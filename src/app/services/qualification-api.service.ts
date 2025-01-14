@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {KeycloakService} from "keycloak-angular";
-import {Qualification} from "../model/Qualification";
-import {Employee} from "../model/Employee";
+
 import {Observable} from "rxjs";
-import {GetQualificationWithEmployees} from "../model/GetQualificationWithEmployees";
+import {GetQualificationWithEmployees} from "../models/GetQualificationWithEmployees";
+import {Qualification} from "../models/Qualification";
+
 
 @Injectable({
   providedIn: 'root'
