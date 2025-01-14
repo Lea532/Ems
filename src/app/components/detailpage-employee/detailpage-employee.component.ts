@@ -25,8 +25,8 @@ export class DetailpageEmployeeComponent implements OnInit{
     try {
       this.id = Number(this.route.snapshot.paramMap.get('id'));
       this.employee$ = await this.employeeApiService.getEmployeeById(this.id)
-    } catch {
-
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Mitarbeiters:', error);
     }
   }
 

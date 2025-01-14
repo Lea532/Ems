@@ -73,9 +73,7 @@ export class EmployeeListComponent {
   }
 
   showQualificationDetails(id: number) {
-    const dialogRef = this.dialog.open(QualificationDetailComponent, {
-      data: {id},
-    });
+    this.router.navigate(['/qualification', id]);
   }
 
   navToEmployeeDetailpage(id: number) {
