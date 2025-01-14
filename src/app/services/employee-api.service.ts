@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of} from "rxjs";
-import {Employee} from "../model/Employee";
+
 import {KeycloakService} from "keycloak-angular";
-import {Qualification} from "../model/Qualification";
-import {GetEmployeeWithQualificationsDto} from "../model/GetEmployeeWithQualificationsDto";
-import {AddEmployeeDto} from "../model/AddEmployeeDto";
-import {EmployeeResponseDto} from "../model/EmployeeResponseDto";
+import {Employee} from "../models/employee";
+import {GetEmployeeWithQualificationsDto} from "../models/GetEmployeeWithQualificationsDto";
+import {AddEmployeeDto} from "../models/AddEmployeeDto";
+import {EmployeeResponseDto} from "../models/EmployeeResponseDto";
+import {Qualification} from "../models/Qualification";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +67,22 @@ export class EmployeeApiService {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${await this.authorize()}`)
     }).toPromise();
+  }
+
+  async editEmployee(employeeId:number, addEmployee: AddEmployeeDto) {
+    return this.http.put('http://localhost:8089/employees/' + employeeId, addEmployee, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${await this.authorize()}`)
+    }).toPromise();
+  }
+
+  async deleteQualificationById(id: number, qualification: Qualification) {
+    return this.http.delete('http://localhost:8089/employees/' + id + '/qualifications/', {
+      body: {skill: qualification.skill},
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    })
   }
 }

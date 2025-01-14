@@ -6,6 +6,6 @@ export class AddEmployeeDto{
     public postcode:string,
     public city:string,
     public phone: string,
-    public skillset: number[]
+    public skillSet: number[]
   ) {}
 }
