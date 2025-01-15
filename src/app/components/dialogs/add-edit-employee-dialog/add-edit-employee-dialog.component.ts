@@ -86,7 +86,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
 
   deleteQualification(qualification:Qualification) {
     this.employeeQualifications = this.employeeQualifications.filter(filterQualification => filterQualification.id != qualification.id);
-    this.employeeApiService.deleteQualificationById(this.data.id, qualification);
+    this.employeeApiService.deleteQualificationById(this.data.id, qualification.id);
     let skillIds: number[] = [];
     this.employeeQualifications.forEach(qualification => {
       skillIds.push(qualification.id);
