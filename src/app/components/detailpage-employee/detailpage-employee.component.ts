@@ -36,8 +36,8 @@ export class DetailpageEmployeeComponent implements OnInit{
       (await this.qualificationApiService.getAllQualifications()).subscribe(qualifications => {
         this.allQualifications = qualifications;
       });
-    } catch {
-
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Mitarbeiters:', error);
     }
   }
 
