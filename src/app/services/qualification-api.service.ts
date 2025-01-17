@@ -48,4 +48,13 @@ export class QualificationApiService {
         .set('Authorization', `Bearer ${await this.authorize()}`)
     })
   }
+
+  async deleteQualification(qualificationId: number) {
+    return this.http.delete('http://localhost:8089/qualifications/' + qualificationId, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    }).toPromise();
+  }
+
 }

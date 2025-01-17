@@ -12,9 +12,10 @@ import {
   AddEditQualificationDialogComponent
 } from "../dialogs/add-edit-qualification-dialog/add-edit-qualification-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
 import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
 import {Router} from "@angular/router";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
 
 @Component({
   selector: 'app-overview',
@@ -97,5 +98,14 @@ export class OverviewComponent implements OnInit {
 
   navToEmployeeDetailpage(id: number) {
     this.router.navigate(['/employees', id]);
+  }
+
+  openDeleteDialog(id:number) {
+    const dialogRef = this.dialog.open(QualificationDetailComponent, {
+      data: { id: id },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
   }
 }

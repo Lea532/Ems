@@ -19,7 +19,7 @@
               <td class="clickable" (click)="showQualificationDetails(qualification.id)">{{qualification.skill}}</td>
               <td>
                 <button mat-raised-button (click)="addOrEditQualification(qualification)">Edit</button>
-                <button type="button">Delete</button>
+                <button mat-raised-button (click)="openDeleteDialog(qualification.id)">Delete</button>
               </td>
             </tr>
           }
