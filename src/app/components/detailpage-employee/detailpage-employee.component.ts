@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MaterialModule} from "../../material/material.module";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {Observable} from "rxjs";
@@ -8,6 +8,8 @@ import {Qualification} from "../../models/Qualification";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AddQualificationDto} from "../../models/AddQualificationDto";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-detailpage-employee',
@@ -20,6 +22,7 @@ export class DetailpageEmployeeComponent implements OnInit{
   employee$: Observable<Employee>;
   public eid: number = 0;
   public allQualifications: Qualification[] = [];
+  readonly dialog = inject(MatDialog);
   form = new FormGroup({
     skillSet: new FormControl<string[]>([])
   })
@@ -42,7 +45,16 @@ export class DetailpageEmployeeComponent implements OnInit{
   }
 
   deleteSkillOfEmployee(qid: number) {
-    this.employeeApiService.deleteQualificationById(this.eid, qid).then(r => this.ngOnInit())
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.employeeApiService.deleteQualificationById(this.eid, qid).then(r => this.ngOnInit())
+      } else {
+        console.log('Löschen wurde abgebrochen.');
+      }
+    });
+
   }
 
   addQualifications() {
