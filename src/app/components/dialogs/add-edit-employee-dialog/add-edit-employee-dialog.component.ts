@@ -56,9 +56,8 @@ export class AddEditEmployeeDialogComponent implements OnInit{
   }
 
   private async fillFormGroup() {
-    if (this.data.id != 0) {
-      (await this.employeeApiService.getEmployeeById(this.data.id)).subscribe(employee => {
-        this.employee = employee;
+    if (this.data.employee) {
+        this.employee = this.data.employee;
         this.formGroup.controls.firstname.setValue(this.employee.firstName!);
         this.formGroup.controls.lastname.setValue(this.employee.lastName!);
         this.formGroup.controls.street.setValue(this.employee.street!);
@@ -68,7 +67,6 @@ export class AddEditEmployeeDialogComponent implements OnInit{
         this.formGroup.controls.skillSet.setValue(this.getQualificationListAsIdList(this.employee.skillSet!));
 
         this.employeeQualifications = this.employee.skillSet!;
-      });
     }
   }
 
@@ -86,7 +84,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
 
   deleteQualification(qualification:Qualification) {
     this.employeeQualifications = this.employeeQualifications.filter(filterQualification => filterQualification.id != qualification.id);
-    this.employeeApiService.deleteQualificationById(this.data.id, qualification.id);
+    this.employeeApiService.deleteQualificationById(this.employee.id!, qualification.id);
     let skillIds: number[] = [];
     this.employeeQualifications.forEach(qualification => {
       skillIds.push(qualification.id);
@@ -105,7 +103,7 @@ export class AddEditEmployeeDialogComponent implements OnInit{
           this.dialogRef.close(employee);
         });
       } else {
-        await this.employeeApiService.editEmployee(this.data.id, addEmployee);
+        await this.employeeApiService.editEmployee(this.data.employee.id, addEmployee);
         this.dialogRef.close();
       }
     } else {

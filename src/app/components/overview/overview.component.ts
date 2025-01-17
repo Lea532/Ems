@@ -12,6 +12,9 @@ import {
   AddEditQualificationDialogComponent
 } from "../dialogs/add-edit-qualification-dialog/add-edit-qualification-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialog/add-edit-employee-dialog.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-overview',
@@ -33,6 +36,7 @@ export class OverviewComponent implements OnInit {
     private employeeApiService: EmployeeApiService,
     private qualificationApiService: QualificationApiService,
     private keycloak: KeycloakService,
+    private router: Router
   ) {
   }
 
@@ -63,4 +67,35 @@ export class OverviewComponent implements OnInit {
     })
   }
 
+  openEmployeeDeleteDialog(id:number) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.employeeApiService.deleteEmployeeById(id)
+          .then(r => this.ngOnInit())
+          .catch(error => { console.log(error); });
+      } else {
+        console.log('Löschen wurde abgebrochen.');
+      }
+    });
+  }
+
+  addOrEditEmployee(employee: Employee|null): void {
+    const dialogRef = this.dialog.open(AddEditEmployeeDialogComponent, {
+      data: { employee: employee },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
+  }
+
+  showQualificationDetails(id: number) {
+    this.router.navigate(['/qualification', id]);
+  }
+
+  navToEmployeeDetailpage(id: number) {
+    this.router.navigate(['/employees', id]);
+  }
 }

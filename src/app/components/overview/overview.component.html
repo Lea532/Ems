@@ -32,7 +32,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Mitarbeiter</th>
-          <th scope="col">&nbsp;</th>
+          <th scope="col"><button mat-raised-button (click)="addOrEditEmployee(null)">Add</button></th>
         </tr>
         </thead>
         <tbody>
@@ -41,8 +41,8 @@
               <td>{{employee.id}}</td>
               <td>{{employee.firstName}} {{employee.lastName}}</td>
               <td>
-                <button type="button">Edit</button>
-                <button type="button">Delete</button>
+                <button mat-raised-button (click)="addOrEditEmployee(employee)">Edit</button>
+                <button mat-raised-button (click)="openEmployeeDeleteDialog(employee.id!)">Delete</button>
               </td>
             </tr>
           }
