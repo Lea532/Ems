@@ -20,7 +20,7 @@
             <mat-label>Qualifikation hinzufügen</mat-label>
             <mat-select formControlName="skillSet" multiple>
               @for(qualification of allQualifications; track qualification.id){
-                <mat-option value="{{qualification.id}}">{{qualification.skill}}</mat-option>
+                <mat-option value="{{qualification.skill}}">{{qualification.skill}}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -30,7 +30,7 @@
       <ul class="list-group">
         <li *ngFor="let skill of employee.skillSet" class="list-group-item">
           {{ skill.skill }}
-          <button mat-button (click)="deleteSkillOfEmployee(skill)">Löschen</button>
+          <button mat-button (click)="deleteSkillOfEmployee(skill.id)">Löschen</button>
         </li>
       </ul>
     </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MaterialModule} from "../../material/material.module";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {Observable} from "rxjs";
@@ -7,6 +7,9 @@ import {ActivatedRoute} from "@angular/router";
 import {Qualification} from "../../models/Qualification";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {AddQualificationDto} from "../../models/AddQualificationDto";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-detailpage-employee',
@@ -17,10 +20,11 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class DetailpageEmployeeComponent implements OnInit{
   employee$: Observable<Employee>;
-  public id: number = 0;
+  public eid: number = 0;
   public allQualifications: Qualification[] = [];
+  readonly dialog = inject(MatDialog);
   form = new FormGroup({
-    skillSet: new FormControl<number[]>([])
+    skillSet: new FormControl<string[]>([])
   })
 
   constructor(private employeeApiService: EmployeeApiService, private route: ActivatedRoute, private qualificationApiService: QualificationApiService) {
@@ -29,35 +33,38 @@ export class DetailpageEmployeeComponent implements OnInit{
 
   async ngOnInit() {
     try {
-      this.id = Number(this.route.snapshot.paramMap.get('id'));
-      this.employee$ = await this.employeeApiService.getEmployeeById(this.id);
+      this.eid = Number(this.route.snapshot.paramMap.get('id'));
+      this.employee$ = await this.employeeApiService.getEmployeeById(this.eid);
 
       (await this.qualificationApiService.getAllQualifications()).subscribe(qualifications => {
         this.allQualifications = qualifications;
-        console.log(1, this.allQualifications)
       });
     } catch (error) {
       console.error('Fehler beim Abrufen des Mitarbeiters:', error);
     }
   }
 
-  deleteSkillOfEmployee(qualification: Qualification) {
-    this.employeeApiService.deleteQualificationById(this.id, qualification).then(r => this.ngOnInit())
+  deleteSkillOfEmployee(qid: number) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.employeeApiService.deleteQualificationById(this.eid, qid).then(r => this.ngOnInit())
+      } else {
+        console.log('Löschen wurde abgebrochen.');
+      }
+    });
+
   }
 
   addQualifications() {
-    this.form.controls.skillSet.value?.forEach((qualificationId) => {
-      this.employeeApiService.addQualificationToEmployee(this.id, this.findQualificationById(qualificationId)).then(x => this.ngOnInit());
+    this.form.controls.skillSet.value?.forEach(async (qualificationName:string) => {
+      let addQualification: AddQualificationDto = new AddQualificationDto(qualificationName);
+      (this.employeeApiService.addQualificationToEmployee(this.eid, addQualification)).then(x => {
+        x.subscribe(y => {
+          this.ngOnInit();
+        });
+      });
     })
-  }
-
-  private findQualificationById(qualificationId: number): Qualification {
-    let qualificationForReturn: Qualification;
-    this.allQualifications.forEach(qualification => {
-      if (qualification.id === qualificationId) {
-        qualificationForReturn = qualification;
-      }
-    })
-    return qualificationForReturn!;
   }
 }
