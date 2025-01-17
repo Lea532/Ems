@@ -12,6 +12,8 @@ import {
   AddEditQualificationDialogComponent
 } from "../dialogs/add-edit-qualification-dialog/add-edit-qualification-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
 
 @Component({
   selector: 'app-overview',
@@ -63,4 +65,12 @@ export class OverviewComponent implements OnInit {
     })
   }
 
+  openDeleteDialog(id:number) {
+    const dialogRef = this.dialog.open(QualificationDetailComponent, {
+      data: { id: id },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    })
+  }
 }

@@ -1,20 +1,17 @@
 <div class="dialog">
   <h2 mat-dialog-title>Details</h2>
   <mat-dialog-content>
-    <h4>Mitarbeiter</h4>
-    <ul *ngIf="employees.length > 0; else noEmployees">
+    <h4 *ngIf="employees.length == 0;">Es ist kein Mitarbeiter mit dieser Qualifikation verknüpft. Möchten Sie wirklich löschen?</h4>
+    <h4 *ngIf="employees.length > 0;">Diese Mitarbeiter haben die Qualifikation, die Sie löschen möchten. Trotzdem löschen?</h4>
+    <ul>
       <li *ngFor="let employee of employees">
         {{ employee.firstName }}
         {{ employee.lastName }}
       </li>
     </ul>
-
-    <ng-template #noEmployees>
-      <p>Keine Mitarbeiter gefunden.</p>
-    </ng-template>
-
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Schließen</button>
+    <button mat-button mat-dialog-close>Abbrechen</button>
+    <button mat-button (click)="deleteQualificationOfEmployees()">Ja, löschen</button>
   </mat-dialog-actions>
 </div>
