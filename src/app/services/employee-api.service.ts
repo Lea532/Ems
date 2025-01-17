@@ -8,6 +8,7 @@ import {GetEmployeeWithQualificationsDto} from "../models/GetEmployeeWithQualifi
 import {AddEmployeeDto} from "../models/AddEmployeeDto";
 import {EmployeeResponseDto} from "../models/EmployeeResponseDto";
 import {Qualification} from "../models/Qualification";
+import {AddQualificationDto} from "../models/AddQualificationDto";
 
 
 
@@ -53,12 +54,13 @@ export class EmployeeApiService {
     })
   }
 
-  async addQualificationToEmployee(employeeId: number, qualification: Qualification) {
-    return this.http.post<Employee>('http://localhost:8089/employees/' + employeeId + '/qualifications', qualification, {
+  async addQualificationToEmployee(id: number, qualification: AddQualificationDto) {
+    console.log("test123", id, qualification)
+    return this.http.post<GetEmployeeWithQualificationsDto>('http://localhost:8089/employees/' + id + '/qualifications', qualification, {
       headers: new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${await this.authorize()}`)
-    })
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${await this.authorize()}`)
+    });
   }
 
   async deleteEmployeeById(employeeId: number) {
@@ -77,9 +79,8 @@ export class EmployeeApiService {
     }).toPromise();
   }
 
-  async deleteQualificationById(id: number, qualification: Qualification) {
-    return this.http.delete('http://localhost:8089/employees/' + id + '/qualifications', {
-      body: {skill: qualification.skill},
+  async deleteQualificationById(eid: number, qid: number) {
+    return this.http.delete('http://localhost:8089/employees/' + eid + '/qualifications/' + qid, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${await this.authorize()}`)
