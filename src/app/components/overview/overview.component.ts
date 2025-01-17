@@ -12,6 +12,7 @@ import {
   AddEditQualificationDialogComponent
 } from "../dialogs/add-edit-qualification-dialog/add-edit-qualification-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
 
 @Component({
   selector: 'app-overview',
@@ -63,4 +64,17 @@ export class OverviewComponent implements OnInit {
     })
   }
 
+  openDeleteDialog(id:number) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.qualificationApiService.deleteQualification(id)
+          .then(r => this.ngOnInit())
+          .catch(error => { console.log(error); });
+      } else {
+        console.log('Löschen wurde abgebrochen.');
+      }
+    });
+  }
 }
