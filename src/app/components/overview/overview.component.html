@@ -16,7 +16,7 @@
           @for (qualification of qualifications$| async; track qualification.id){
             <tr>
               <td>{{qualification.id}}</td>
-              <td>{{qualification.skill}}</td>
+              <td><button mat-button (click)="showQualificationDetails(qualification.id)">{{qualification.skill}}</button></td>
               <td>
                 <button mat-raised-button (click)="addOrEditQualification(qualification)">Edit</button>
                 <button mat-raised-button (click)="openDeleteDialog(qualification.id)">Delete</button>
@@ -32,17 +32,17 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Mitarbeiter</th>
-          <th scope="col">&nbsp;</th>
+          <th scope="col"><button mat-raised-button (click)="addOrEditEmployee(null)">Add</button></th>
         </tr>
         </thead>
         <tbody>
           @for (employee of employees$| async; track employee.id){
             <tr>
               <td>{{employee.id}}</td>
-              <td>{{employee.firstName}} {{employee.lastName}}</td>
+              <td><button mat-button (click)="navToEmployeeDetailpage(employee.id!)">{{employee.firstName}} {{employee.lastName}}</button></td>
               <td>
-                <button type="button">Edit</button>
-                <button type="button">Delete</button>
+                <button mat-raised-button (click)="addOrEditEmployee(employee)">Edit</button>
+                <button mat-raised-button (click)="openEmployeeDeleteDialog(employee.id!)">Delete</button>
               </td>
             </tr>
           }
