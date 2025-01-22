@@ -1,9 +1,15 @@
 <h1 class="text-center p-4">Übersicht</h1>
+
 <p>Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
   <button (click)="logout()">logout</button></p>
+
 <div class="container">
   <div class="row">
     <div class="col">
+      <app-search-qualification
+        [qualifications$]="qualifications$"
+        (filtered)="onFilteredQualifications($event)"
+      ></app-search-qualification>
       <table class="table border">
         <thead>
         <tr>
@@ -13,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-          @for (qualification of qualifications$| async; track qualification.id){
+          @for (qualification of filteredQualifications; track qualification.id){
             <tr>
               <td>{{qualification.id}}</td>
               <td><button mat-button (click)="showQualificationDetails(qualification.id)">{{qualification.skill}}</button></td>
@@ -27,6 +33,10 @@
       </table>
     </div>
     <div class="col">
+      <app-search-employee
+        [employees$]="employees$"
+        (filtered)="onFilteredEmployees($event)"
+      ></app-search-employee>
       <table class="table border">
         <thead>
         <tr>
@@ -36,7 +46,7 @@
         </tr>
         </thead>
         <tbody>
-          @for (employee of employees$| async; track employee.id){
+          @for (employee of filteredEmployees; track employee.id){
             <tr>
               <td>{{employee.id}}</td>
               <td><button mat-button (click)="navToEmployeeDetailpage(employee.id!)">{{employee.firstName}} {{employee.lastName}}</button></td>

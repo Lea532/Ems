@@ -1,4 +1,4 @@
-import {Component, inject, Inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {QualificationApiService} from "../../services/qualification-api.service";
@@ -16,13 +16,18 @@ import {AddEditEmployeeDialogComponent} from "../dialogs/add-edit-employee-dialo
 import {Router} from "@angular/router";
 import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
 import {QualificationDetailComponent} from "../qualification-detail/qualification-detail.component";
+import {SearchEmployeeComponent} from "../search-employee/search-employee.component";
+import {SearchQualificationComponent} from "../search-qualification/search-qualification.component";
+// import * as module from "node:module";
 
 @Component({
   selector: 'app-overview',
   standalone: true,
   imports: [
     AsyncPipe,
-    MatButtonModule
+    MatButtonModule,
+    SearchEmployeeComponent,
+    SearchQualificationComponent
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
@@ -30,6 +35,8 @@ import {QualificationDetailComponent} from "../qualification-detail/qualificatio
 export class OverviewComponent implements OnInit {
   protected employees$!: Observable<Employee[]>;
   protected qualifications$!: Observable<Qualification[]>;
+  protected filteredEmployees: Employee[] = [];
+  protected filteredQualifications: Qualification[] = [];
 
   readonly dialog = inject(MatDialog);
 
@@ -53,6 +60,13 @@ export class OverviewComponent implements OnInit {
       console.error('Error:', error);
     })
   }
+  onFilteredEmployees(filteredEmployees: Employee[]) {
+    this.filteredEmployees = filteredEmployees;
+  }
+
+  onFilteredQualifications(filteredQualifications: Qualification[]) {
+    this.filteredQualifications = filteredQualifications;
+  }
 
   logout(){
     this.keycloak.logout();
@@ -63,7 +77,7 @@ export class OverviewComponent implements OnInit {
       data: { qualification: qualification }
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
     })
   }
@@ -74,7 +88,7 @@ export class OverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         this.employeeApiService.deleteEmployeeById(id)
-          .then(r => this.ngOnInit())
+          .then(() => this.ngOnInit())
           .catch(error => { console.log(error); });
       } else {
         console.log('Löschen wurde abgebrochen.');
@@ -87,7 +101,7 @@ export class OverviewComponent implements OnInit {
       data: { employee: employee },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
     })
   }
@@ -104,8 +118,10 @@ export class OverviewComponent implements OnInit {
     const dialogRef = this.dialog.open(QualificationDetailComponent, {
       data: { id: id },
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.ngOnInit();
     })
   }
+
+  //protected readonly events = module
 }
