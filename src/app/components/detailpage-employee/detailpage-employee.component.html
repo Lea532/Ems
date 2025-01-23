@@ -1,5 +1,8 @@
 <div class="container mt-4">
-  <h1>Mitarbeiterdetails</h1>
+  <div class="row">
+    <h1 class="col-11">Mitarbeiterdetails</h1>
+    <button class="col" mat-raised-button (click)="navToOverview()">Zurück</button>
+  </div>
   <div *ngIf="employee$ | async as employee" class="row">
     <div class="col-md-6">
       <h2>{{ employee.firstName }} {{ employee.lastName }}</h2>
@@ -12,25 +15,24 @@
 
     <div class="col-md-6">
       <h2>Qualifikationen</h2>
-
-      <div>
-        <button (click)="addQualifications()">Hinzufügen</button>
-        <form [formGroup]="form">
-          <mat-form-field>
+      <div class="row ">
+        <form [formGroup]="form" class="col full-width">
+          <mat-form-field class="full-width">
             <mat-label>Qualifikation hinzufügen</mat-label>
             <mat-select formControlName="skillSet" multiple>
               @for(qualification of allQualifications; track qualification.id){
                 <mat-option value="{{qualification.skill}}">{{qualification.skill}}</mat-option>
               }
-            </mat-select>
+              </mat-select>
           </mat-form-field>
         </form>
+        <button class="col-md-2" mat-raised-button (click)="addQualifications()">Hinzufügen</button>
       </div>
 
       <ul class="list-group">
         <li *ngFor="let skill of employee.skillSet" class="list-group-item">
           {{ skill.skill }}
-          <button mat-button (click)="deleteSkillOfEmployee(skill.id)">Löschen</button>
+          <button mat-button color="warn" (click)="deleteSkillOfEmployee(skill.id)">Löschen</button>
         </li>
       </ul>
     </div>

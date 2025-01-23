@@ -1,13 +1,16 @@
 <div class="container mt-4">
-  <h1>Details zur Qualifikation</h1>
+  <div class="row">
+    <h1 class="col-11">Details zur Qualifikation</h1>
+    <button class="col" mat-raised-button (click)="navToOverview()">Zurück</button>
+  </div>
   <div *ngIf="qualification$ | async as qualification">
     <h2>{{ qualification.qualification.skill }}</h2>
-
-    <h3>Mitarbeiter mit dieser Qualifikation</h3>
-    <ul class="list-group">
+    <h3>Mitarbeiter mit dieser Qualifikation: </h3>
+    <ul class="list-group" *ngIf="qualification.employees.length != 0">
       <li *ngFor="let employee of qualification.employees" class="list-group-item">
         {{ employee.firstName }} {{ employee.lastName }}
       </li>
     </ul>
+    <p *ngIf="qualification.employees.length == 0">Es gibt keine Mitarbeiter mit dieser Qualifikation</p>
   </div>
 </div>

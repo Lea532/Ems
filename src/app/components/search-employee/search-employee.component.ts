@@ -2,13 +2,17 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {BehaviorSubject, combineLatest, map, Observable, startWith} from "rxjs";
 import {Employee} from "../../models/employee";
 import {FormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-search-employee',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
+    imports: [
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
   templateUrl: './search-employee.component.html',
   styleUrl: './search-employee.component.css'
 })

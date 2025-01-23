@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MaterialModule} from "../../material/material.module";
 import {QualificationApiService} from "../../services/qualification-api.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {GetQualificationWithEmployees} from "../../models/GetQualificationWithEmployees";
 import {Observable} from "rxjs";
 
@@ -16,7 +16,7 @@ export class DetailpageQualificationComponent implements OnInit {
   public qualification$: Observable<GetQualificationWithEmployees>;
   public id: number = 0;
 
-  constructor(private qualificationApiService: QualificationApiService, private route: ActivatedRoute) {
+  constructor(private qualificationApiService: QualificationApiService, private route: ActivatedRoute, private router: Router) {
     this.qualification$ = new Observable<GetQualificationWithEmployees>()
   }
 
@@ -29,4 +29,7 @@ export class DetailpageQualificationComponent implements OnInit {
     }
   }
 
+  navToOverview(){
+    this.router.navigate(['overview']);
+  }
 }

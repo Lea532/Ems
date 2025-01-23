@@ -1,11 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {BehaviorSubject, combineLatest, map, Observable, startWith} from "rxjs";
 import {Qualification} from "../../models/Qualification";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-search-qualification',
   standalone: true,
-  imports: [],
+  imports: [
+    MatInputModule
+  ],
   templateUrl: './search-qualification.component.html',
   styleUrl: './search-qualification.component.css'
 })
