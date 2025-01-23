@@ -26,13 +26,20 @@
               </mat-select>
           </mat-form-field>
         </form>
-        <button class="col-md-2" mat-raised-button (click)="addQualifications()">Hinzufügen</button>
+        <button class="col-md-2" mat-raised-button color="primary" (click)="addQualifications()">Hinzufügen</button>
       </div>
 
       <ul class="list-group">
         <li *ngFor="let skill of employee.skillSet" class="list-group-item">
-          {{ skill.skill }}
-          <button mat-button color="warn" (click)="deleteSkillOfEmployee(skill.id)">Löschen</button>
+          <div class="row">
+            <div class="col align-middle my-auto">
+              {{ skill.skill }}
+
+            </div>
+            <div class="col text-end">
+              <button mat-button color="warn" (click)="deleteSkillOfEmployee(skill.id)">Löschen</button>
+            </div>
+          </div>
         </li>
       </ul>
     </div>

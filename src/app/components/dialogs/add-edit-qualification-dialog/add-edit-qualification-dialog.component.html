@@ -7,15 +7,15 @@
     }
   </div>
   <form>
-    <mat-form-field class="row">
+    <mat-form-field>
       <mat-label>Bezeichnung</mat-label>
       <input matInput type="text" [(ngModel)]="qualificationTitle" name="qualificationTitle">
     </mat-form-field>
-    <div class="row">
+    <div class="text-center">
       @if (!this.data.qualification){
-        <button mat-raised-button (click)="addOrEditQualification(true)">Qualifikation anlegen</button>
+        <button mat-raised-button color="primary" (click)="addOrEditQualification(true)">Speichern</button>
       } @else {
-        <button mat-raised-button (click)="addOrEditQualification(false)">Qualifikation bearbeiten</button>
+        <button mat-raised-button color="primary" (click)="addOrEditQualification(false)">Änderungen speichern</button>
       }
     </div>
   </form>

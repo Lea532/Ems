@@ -1,6 +1,6 @@
 <div class="padding">
   <div>
-    @if (!data.employee){
+    @if (!data.employee) {
       <h1>Mitarbeiter anlegen</h1>
     } @else {
       <h1>Mitarbeiter bearbeiten</h1>
@@ -45,26 +45,35 @@
         <mat-form-field>
           <mat-label>Qualifikation hinzufügen</mat-label>
           <mat-select formControlName="skillSet" multiple>
-            @for(qualification of allQualifications; track qualification.id){
-              <mat-option value="{{qualification.id}}">{{qualification.skill}}</mat-option>
+            @for (qualification of allQualifications; track qualification.id) {
+              <mat-option value="{{qualification.id}}">{{ qualification.skill }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
       </div>
 
       <div class="qualification-wrapper">
-        <h2>Qualifikationen</h2>
-        <ul>
-          @for (qualification of employeeQualifications; track qualification.id ){
-            <li><div class="spacer">{{qualification.skill}} <button mat-raised-button color="warn" (click)="deleteQualification(qualification)">Löschen</button></div> </li>
-          }
-        </ul>
+        @if (employeeQualifications.length > 0) {
+          <h2>Qualifikationen</h2>
+          <ul>
+            @for (qualification of employeeQualifications; track qualification.id) {
+              <li>
+                <div class="spacer">
+                  {{ qualification.skill }}
+                  <button mat-raised-button color="warn" (click)="deleteQualification(qualification)">Löschen</button>
+                </div>
+              </li>
+            }
+          </ul>
+        }
       </div>
-      @if (!data.employee){
-        <button mat-raised-button (click)="addOrEditEmployee(true)">Mitarbeiter anlegen</button>
-      } @else {
-        <button mat-raised-button (click)="addOrEditEmployee(false)">Änderungen speichern</button>
-      }
+      <div class="text-center">
+        @if (!data.employee) {
+          <button mat-raised-button color="primary" (click)="addOrEditEmployee(true)">Speichern</button>
+        } @else {
+          <button mat-raised-button color="primary" (click)="addOrEditEmployee(false)">Änderungen speichern</button>
+        }
+      </div>
     </form>
   </div>
 </div>
