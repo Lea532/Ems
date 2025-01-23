@@ -1,0 +1,10 @@
+.padding{
+  margin: 10px;
+  padding: 10px;
+}
+
+.spacer{
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+}

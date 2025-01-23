@@ -3,7 +3,7 @@ import {MaterialModule} from "../../material/material.module";
 import {EmployeeApiService} from "../../services/employee-api.service";
 import {Observable} from "rxjs";
 import {Employee} from "../../models/employee";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Qualification} from "../../models/Qualification";
 import {QualificationApiService} from "../../services/qualification-api.service";
 import {FormControl, FormGroup} from "@angular/forms";
@@ -27,7 +27,7 @@ export class DetailpageEmployeeComponent implements OnInit{
     skillSet: new FormControl<string[]>([])
   })
 
-  constructor(private employeeApiService: EmployeeApiService, private route: ActivatedRoute, private qualificationApiService: QualificationApiService) {
+  constructor(private employeeApiService: EmployeeApiService, private route: ActivatedRoute, private qualificationApiService: QualificationApiService, private router: Router) {
     this.employee$ = new Observable<Employee>()
   }
 
@@ -66,5 +66,9 @@ export class DetailpageEmployeeComponent implements OnInit{
         });
       });
     })
+  }
+
+  navToOverview() {
+    this.router.navigate(['overview'])
   }
 }

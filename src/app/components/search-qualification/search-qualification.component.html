@@ -1,5 +1,6 @@
-<input
-  type="text"
-  placeholder="Suche Qualifikationen"
-  (input)="onSearchInput($event)"
->
+<mat-form-field class="full-width">
+  <mat-label>Suchen</mat-label>
+  <input matInput
+         type="text"
+         (input)="onSearchInput($event)">
+</mat-form-field>

@@ -1,19 +1,22 @@
-<div>
-  @if (!this.data.qualification){
-    <h1>Qualifikation anlegen</h1>
-  } @else {
-    <h1>Qualifikation bearbeiten</h1>
-  }
+<div class="spacer">
+  <div class="row">
+    @if (!this.data.qualification){
+      <h1>Qualifikation anlegen</h1>
+    } @else {
+      <h1>Qualifikation bearbeiten</h1>
+    }
+  </div>
+  <form>
+    <mat-form-field class="row">
+      <mat-label>Bezeichnung</mat-label>
+      <input matInput type="text" [(ngModel)]="qualificationTitle" name="qualificationTitle">
+    </mat-form-field>
+    <div class="row">
+      @if (!this.data.qualification){
+        <button mat-raised-button (click)="addOrEditQualification(true)">Qualifikation anlegen</button>
+      } @else {
+        <button mat-raised-button (click)="addOrEditQualification(false)">Qualifikation bearbeiten</button>
+      }
+    </div>
+  </form>
 </div>
-<form>
-  <mat-form-field>
-    <mat-label>Bezeichnung</mat-label>
-    <input matInput type="text" [(ngModel)]="qualificationTitle" name="qualificationTitle">
-  </mat-form-field>
-
-  @if (!this.data.qualification){
-    <button mat-raised-button (click)="addOrEditQualification(true)">Qualifikation anlegen</button>
-  } @else {
-    <button mat-raised-button (click)="addOrEditQualification(false)">Qualifikation bearbeiten</button>
-  }
-</form>

@@ -1,8 +1,4 @@
 <h1 class="text-center p-4">Übersicht</h1>
-
-<p>Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
-  <button (click)="logout()">logout</button></p>
-
 <div class="container">
   <div class="row">
     <div class="col">
@@ -15,7 +11,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Qualifikation</th>
-          <th scope="col"><button mat-raised-button (click)="addOrEditQualification(null)">Add</button></th>
+          <th scope="col"><button mat-raised-button (click)="addOrEditQualification(null)">Hinzufügen</button></th>
         </tr>
         </thead>
         <tbody>
@@ -24,8 +20,8 @@
               <td>{{qualification.id}}</td>
               <td><button mat-button (click)="showQualificationDetails(qualification.id)">{{qualification.skill}}</button></td>
               <td>
-                <button mat-raised-button (click)="addOrEditQualification(qualification)">Edit</button>
-                <button mat-raised-button (click)="openDeleteDialog(qualification.id)">Delete</button>
+                <button mat-raised-button (click)="addOrEditQualification(qualification)">Bearbeiten</button>
+                <button mat-raised-button color="warn" (click)="openDeleteDialog(qualification.id)">Löschen</button>
               </td>
             </tr>
           }
@@ -42,7 +38,7 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Mitarbeiter</th>
-          <th scope="col"><button mat-raised-button (click)="addOrEditEmployee(null)">Add</button></th>
+          <th scope="col"><button mat-raised-button (click)="addOrEditEmployee(null)">Hinzufügen</button></th>
         </tr>
         </thead>
         <tbody>
@@ -51,8 +47,8 @@
               <td>{{employee.id}}</td>
               <td><button mat-button (click)="navToEmployeeDetailpage(employee.id!)">{{employee.firstName}} {{employee.lastName}}</button></td>
               <td>
-                <button mat-raised-button (click)="addOrEditEmployee(employee)">Edit</button>
-                <button mat-raised-button (click)="openEmployeeDeleteDialog(employee.id!)">Delete</button>
+                <button mat-raised-button (click)="addOrEditEmployee(employee)">Bearbeiten</button>
+                <button mat-raised-button color="warn" (click)="openEmployeeDeleteDialog(employee.id!)">Löschen</button>
               </td>
             </tr>
           }
