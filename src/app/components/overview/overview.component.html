@@ -2,23 +2,31 @@
 <div class="container">
   <div class="row">
     <div class="col">
+      <h2 class="text-center">Qualifikationen</h2>
       <app-search-qualification
         [qualifications$]="qualifications$"
         (filtered)="onFilteredQualifications($event)"
       ></app-search-qualification>
-      <table class="table border">
+      <table class="table mat-table">
         <thead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Qualifikation</th>
-          <th scope="col"><button mat-raised-button (click)="addOrEditQualification(null)">Hinzufügen</button></th>
+          <th scope="col">
+            <button
+              mat-raised-button color="primary" (click)="addOrEditQualification(null)"
+            >Hinzufügen</button>
+          </th>
         </tr>
         </thead>
         <tbody>
-          @for (qualification of filteredQualifications; track qualification.id){
+          @for (qualification of filteredQualifications; track qualification.id) {
             <tr>
-              <td>{{qualification.id}}</td>
-              <td><button mat-button (click)="showQualificationDetails(qualification.id)">{{qualification.skill}}</button></td>
+              <td>{{ qualification.id }}</td>
+              <td>
+                <button mat-button (click)="showQualificationDetails(qualification.id)">{{ qualification.skill }}
+                </button>
+              </td>
               <td>
                 <button mat-raised-button (click)="addOrEditQualification(qualification)">Bearbeiten</button>
                 <button mat-raised-button color="warn" (click)="openDeleteDialog(qualification.id)">Löschen</button>
@@ -29,23 +37,30 @@
       </table>
     </div>
     <div class="col">
+      <h2 class="text-center">Mitarbeiter</h2>
       <app-search-employee
         [employees$]="employees$"
         (filtered)="onFilteredEmployees($event)"
       ></app-search-employee>
-      <table class="table border">
+      <table class="table mat-table">
         <thead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Mitarbeiter</th>
-          <th scope="col"><button mat-raised-button (click)="addOrEditEmployee(null)">Hinzufügen</button></th>
+          <th scope="col">
+            <button mat-raised-button color="primary" (click)="addOrEditEmployee(null)">Hinzufügen</button>
+          </th>
         </tr>
         </thead>
         <tbody>
-          @for (employee of filteredEmployees; track employee.id){
+          @for (employee of filteredEmployees; track employee.id) {
             <tr>
-              <td>{{employee.id}}</td>
-              <td><button mat-button (click)="navToEmployeeDetailpage(employee.id!)">{{employee.firstName}} {{employee.lastName}}</button></td>
+              <td>{{ employee.id }}</td>
+              <td>
+                <button mat-button
+                        (click)="navToEmployeeDetailpage(employee.id!)">{{ employee.firstName }} {{ employee.lastName }}
+                </button>
+              </td>
               <td>
                 <button mat-raised-button (click)="addOrEditEmployee(employee)">Bearbeiten</button>
                 <button mat-raised-button color="warn" (click)="openEmployeeDeleteDialog(employee.id!)">Löschen</button>
